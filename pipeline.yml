@@ -403,6 +403,14 @@ Resources:
                   - ec2:DeleteSnapshot
                 Effect: Allow
                 Resource: '*'
+        - PolicyName: tag-allow
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - tag:GetResources
+                Effect: Allow
+                Resource: '*'
 
   CustodianMailerRole:
     Type: AWS::IAM::Role
