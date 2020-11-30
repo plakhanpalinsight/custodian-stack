@@ -285,7 +285,7 @@ Resources:
                 Repo: !Ref GithubRepo
                 Branch: !Ref GithubBranch
                 OAuthToken: !Ref GithubOAuthToken
-                PollForSourceChanges: false
+                PollForSourceChanges: true
               RunOrder: 1
         - Name: Test
           Actions:
