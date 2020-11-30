@@ -112,6 +112,7 @@ Resources:
                   - ec2:DescribeNetworkInterfaces
                   - ec2:DeleteNetworkInterface
                   - ec2:CreateNetworkInterface
+                  - ec2:DescribeRegions
                   - events:PutRule
                   - events:PutTargets
                   - events:DescribeRule
