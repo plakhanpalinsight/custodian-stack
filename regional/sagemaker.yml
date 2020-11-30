@@ -23,8 +23,8 @@ policies:
       role: *execution-role
     filters:
       - or:
-        - DirectInternetAccess: Enabled
-        - KmsKeyId: absent
+        - "DirectInternetAccess": "Enabled"
+        - "KmsKeyId": absent
     actions:
       - type: tag
         key: NonCompliantTag
