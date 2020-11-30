@@ -388,6 +388,7 @@ Resources:
             Statement:
               - Action:
                   - rds:ModifyDBInstance
+                  - rds:DescribeDBInstances
                 Effect: Allow
                 Resource: '*'
 
