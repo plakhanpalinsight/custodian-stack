@@ -389,6 +389,18 @@ Resources:
               - Action:
                   - rds:ModifyDBInstance
                   - rds:DescribeDBInstances
+                  - rds:CreateDBSnapshot
+                  - rds:DeleteDBSnapshot
+                Effect: Allow
+                Resource: '*'
+        - PolicyName: ec2-allow
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - ec2:CreateSnapshot
+                  - ec2:CreateTags
+                  - ec2:DeleteSnapshot
                 Effect: Allow
                 Resource: '*'
 

@@ -32,3 +32,82 @@ policies:
       #    - property: 'MultiAZ'
       #      value: true
       #  immediate: true
+
+  - name: ec2-daily-backup
+    resource: ec2
+    description: |
+      Creates a snapshot of every EC2 EBS
+      volume daily when custodian runs
+      its daily scan
+    mode:
+      type: periodic
+      schedule: "rate(1 day)"
+      role: *execution-role
+    actions:
+      - type: snapshot
+        copy-tags:
+        - Owner
+        - "Resource Contact"
+        - Environment
+        - "Billing Cost Center"
+        - Name
+
+  - name: delete-old-snapshots
+    resource: ebs-snapshot
+    description: |
+      Deletes a snapshot if its older than 7
+      days and it was created by
+      cloud custodian
+    mode:
+      type: periodic
+      schedule: "rate(1 day)"
+      timeout: 300
+      role: *execution-role
+    filters:
+      - type: age
+        days: 7
+        op: ge
+      - type: value
+        key: Description
+        op: regex
+        value: ^(Automated,Backup,-?)\w+
+    actions:
+      - delete
+
+  - name: rds-daily-snapshot
+    resource: rds
+    description: |
+      Creates a snapshot of every RDS
+      volume daily when custodian runs
+      its full scan
+    mode:
+      type: periodic
+      schedule: "rate(1 day)"
+      role: *execution-role
+    actions:
+      - snapshot
+
+  - name: rds-snapshot-delete-stale
+    resource: rds-snapshot
+    description: |
+      Deletes RDS single instance
+      snapshots
+      of age 15 days or older.
+    mode:
+      type: periodic
+      schedule: "rate(1 day)"
+      role: *execution-role
+    filters:
+      - type: age
+        days: 15
+        op: ge
+      - type: value
+        key: DBSnapshotIdentifier
+        op: regex
+        value: ^(backup-?)\w+
+      - type: value
+        key: SnapshotType
+        op: eq
+        value: manual
+    actions:
+      - delete
