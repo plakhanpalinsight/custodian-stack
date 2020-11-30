@@ -17,11 +17,8 @@ policies:
     description: |
       Modify RDS retention time period
     mode:
-      type: cloudtrail
-      events:
-        - source: rds.amazonaws.com
-          event: CreateDBInstance
-          ids: "requestParameters.dBInstanceIdentifier"
+      type: periodic
+      schedule: "rate(15 minutes)"
       role: *execution-role
     filters:
       - type: value
