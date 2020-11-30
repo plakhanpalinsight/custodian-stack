@@ -1,0 +1,33 @@
+vars:
+  execution-role: &execution-role CustodianRoleArn
+  notify-non-compliant-rds: &notify-non-compliant-rds
+    type: notify
+    violation_desc: RDS database will be converted to multi-AZ.
+    action_desc: ":crying:"
+    to:
+      - SlackWebHookUrl
+    transport:
+      type: sqs
+      queue: TransportQueueUrl
+
+policies:
+  - name: rds-multi-az-remediate
+    resource: rds
+    description: |
+      Modify all RDS Instances that are Not Multi AZ setup.
+    mode:
+      type: cloudtrail
+      events:
+        - source: rds.amazonaws.com
+          event: CreateDBInstance
+          ids: "requestParameters.dBInstanceIdentifier"
+      role: *execution-role
+    filters:
+      - MultiAZ: false
+    actions:
+      - *notify-non-compliant-rds
+      - type: modify-db
+        update:
+          - property: 'MultiAZ'
+            value: true
+        immediate: true

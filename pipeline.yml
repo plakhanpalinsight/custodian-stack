@@ -382,6 +382,14 @@ Resources:
                   - sagemaker:DeleteNotebookInstance
                 Effect: Allow
                 Resource: '*'
+        - PolicyName: rds-allow
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - rds:ModifyDBInstance
+                Effect: Allow
+                Resource: '*'
 
   CustodianMailerRole:
     Type: AWS::IAM::Role
