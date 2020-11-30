@@ -54,5 +54,5 @@ policies:
     filters:
       - "tag:NonCompliantTag": "TRUE"
       - NotebookInstanceStatus: Stopped
-    actions:
-      - delete
+    #actions:
+    #  - delete
