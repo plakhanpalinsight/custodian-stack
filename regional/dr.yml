@@ -9,15 +9,6 @@ vars:
     transport:
       type: sqs
       queue: TransportQueueUrl
-  notify-rds-multi-az: &notify-rds-multi-az
-    type: notify
-    violation_desc: RDS database will be converted to multi-AZ.
-    action_desc: ":crying:"
-    to:
-      - SlackWebHookUrl
-    transport:
-      type: sqs
-      queue: TransportQueueUrl
 
 
 policies:
