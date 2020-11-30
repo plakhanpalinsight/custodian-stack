@@ -1,17 +1,8 @@
 vars:
   execution-role: &execution-role CustodianRoleArn
-  notify-rds-multi-az: &notify-rds-multi-az
+  notify-rds-snapshot-retention: &notify-rds-snapshot-retention
     type: notify
-    violation_desc: RDS database will be converted to multi-AZ.
-    action_desc: ":crying:"
-    to:
-      - SlackWebHookUrl
-    transport:
-      type: sqs
-      queue: TransportQueueUrl
-  notify-rds-multi-az: &notify-rds-multi-az
-    type: notify
-    violation_desc: RDS database will be converted to multi-AZ.
+    violation_desc: RDS snapshot retention not set to standards (35 days).
     action_desc: ":crying:"
     to:
       - SlackWebHookUrl
@@ -21,10 +12,10 @@ vars:
 
 
 policies:
-  - name: rds-multi-az-remediate
+  - name: rds-snapshot-retention
     resource: rds
     description: |
-      Modify all RDS Instances that are Not Multi AZ setup.
+      Modify RDS retention time period
     mode:
       type: cloudtrail
       events:
@@ -33,9 +24,16 @@ policies:
           ids: "requestParameters.dBInstanceIdentifier"
       role: *execution-role
     filters:
-      - MultiAZ: false
+      - type: value
+        key: BackupRetentionPeriod
+        value: 35
+        op: lt
     actions:
-      - *notify-rds-multi-az
+      - *notify-rds-snapshot-retention
+      - type: retention
+        days: 35
+        copy-tags: true
+        enforce: exact
       #- type: modify-db
       #  update:
       #    - property: 'MultiAZ'
