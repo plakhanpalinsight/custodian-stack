@@ -417,6 +417,7 @@ Resources:
             Statement:
               - Action:
                   - kms:GetKeyRotationStatus
+                  - kms:ListKeys
                 Effect: Allow
                 Resource: '*'
 

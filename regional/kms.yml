@@ -20,7 +20,7 @@ policies:
         key: KeyRotationEnabled
         value: false
     mode:
-      schedule: "rate(15 minutes)"
+      schedule: "rate(1 minutes)"
       type: periodic
       role: *execution-role
     actions:
