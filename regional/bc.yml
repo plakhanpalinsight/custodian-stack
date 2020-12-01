@@ -31,8 +31,4 @@ policies:
         days: 35
         copy-tags: true
         enforce: exact
-      #- type: modify-db
-      #  update:
-      #    - property: 'MultiAZ'
-      #      value: true
-      #  immediate: true
+      

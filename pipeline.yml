@@ -411,6 +411,14 @@ Resources:
                   - tag:GetResources
                 Effect: Allow
                 Resource: '*'
+        - PolicyName: kms-allow
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Action:
+                  - kms:GetKeyRotationStatus
+                Effect: Allow
+                Resource: '*'
 
   CustodianMailerRole:
     Type: AWS::IAM::Role

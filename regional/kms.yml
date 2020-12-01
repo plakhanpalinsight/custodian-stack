@@ -1,0 +1,33 @@
+vars:
+  execution-role: &execution-role CustodianRoleArn
+  notify-kms: &notify-kms
+    type: notify
+    violation_desc: AWS KMS keys do not have annual key rotation enabled. CIS Amazon Web Services Foundations v1.1.0 (2.8)
+    action_desc: ":crying:"
+    to:
+      - SlackWebHookUrl
+    transport:
+      type: sqs
+      queue: TransportQueueUrl
+
+
+policies:
+  - name: cis-kms-key-rotation-is-enabled
+    resource: kms-key
+    description: "CIS Amazon Web Services Foundations v1.1.0 (2.5)"
+    filters:
+      - type: key-rotation-status
+        key: KeyRotationEnabled
+        value: false
+    mode:
+      schedule: "rate(15 minutes)"
+      type: periodic
+      role: *execution-role
+    actions:
+      - *notify-kms
+      - type: post-finding
+        severity_normalized: 50
+        compliance_status: WARNING
+        types:
+          - "Software and Configuration Checks/AWS Security Best practices"
+        

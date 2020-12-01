@@ -1,3 +1,5 @@
 .venv/
 .vscode/
 out/
+README.md
+example-cwe.json
