@@ -35,7 +35,7 @@ policies:
     resource: sagemaker-notebook
     mode:
       type: periodic
-      schedule: "rate(5 minutes)"
+      schedule: "rate(1 day)"
       timeout: 45
       role: *execution-role
     filters:
@@ -48,7 +48,7 @@ policies:
     resource: sagemaker-notebook
     mode:
       type: periodic
-      schedule: "rate(5 minutes)"
+      schedule: "rate(1 day)"
       timeout: 45
       role: *execution-role
     filters:

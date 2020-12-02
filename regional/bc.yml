@@ -18,7 +18,7 @@ policies:
       Modify RDS retention time period
     mode:
       type: periodic
-      schedule: "rate(15 minutes)"
+      schedule: "rate(1 day)"
       role: *execution-role
     filters:
       - type: value
